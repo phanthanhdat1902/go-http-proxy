@@ -197,13 +197,14 @@ func filter(blackList []string, host string) bool {
 			if blackWeb == blockAllString {
 				return true
 			} else if strings.Contains(blackWeb, string(blockAllChar)) {
-				//regexBlackWeb = strings.Replace(blackWeb, "*", ".*", -1)
-				if blackWeb[0] == blockAllChar {
-					regexBlackWeb = blackWeb[1:] + "$"
-				}
-				if blackWeb[len(blackWeb)-1] == blockAllChar {
-					regexBlackWeb = blackWeb[:len(blackWeb)-1] + "^"
-				}
+				regexBlackWeb = strings.Replace(blackWeb, "*", "\\S*", -1)
+				// *.com
+				//if blackWeb[0] == blockAllChar {
+				//	regexBlackWeb = "." + blackWeb
+				//}
+				//if blackWeb[len(blackWeb)-1] == blockAllChar {
+				//	regexBlackWeb = "^" + blackWeb[:len(blackWeb)-1]
+				//}
 				isMatch, err := regexp.MatchString(regexBlackWeb, domain)
 				if err != nil {
 					fmt.Println(err)
